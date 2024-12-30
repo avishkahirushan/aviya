@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!-- Previous HTML code remains same until the style tag -->
+<style>
+    /* Previous styles remain same */
+
+    /* Adding new loading animation styles */
+    .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .loader {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loader::before,
+    .loader::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 5px solid transparent;
+        animation: rotate 2s linear infinite;
+    }
+
+    .loader::before {
+        border-top-color: #0066ff;
+        border-bottom-color: #ff4757;
+    }
+
+    .loader::after {
+        border-left-color: #2ecc71;
+        border-right-color: #f1c40f;
+        animation-direction: reverse;
+        animation-duration: 1.5s;
+    }
+
+    .loader-text {
+        position: absolute;
+        font-size: 1rem;
+        color: #2c3e50;
+        margin-top: 180px;
+        font-weight: 500;
+    }
+
+    @keyframes rotate {
+        0% { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(180deg) scale(1.2); }
+        100% { transform: rotate(360deg) scale(1); }
+    }
+
+    .fade-out {
+        animation: fadeOut 0.5s forwards;
+    }
+
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; visibility: hidden; }
+    }
+
+    /* Content fade in animation */
+    .content-hidden {
+        opacity: 0;
+    }
+
+    .content-visible {
+        animation: fadeIn 1s forwards;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* Add animation to main content */
+    .main-content {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .main-content.loaded {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<!-- Add loader HTML before the nav element -->
+<div class="loader-container">
+    <div class="loader"></div>
+    <div class="loader-text">පූරණය වෙමින්...</div>
+</div>
+
+<!-- Previous HTML code remains same -->
+
+<!-- Update script section at the bottom -->
+<script>
+    // Previous JavaScript code
+
+    // Loading animation
+    window.addEventListener('load', function() {
+        const loader = document.querySelector('.loader-container');
+        const mainContent = document.querySelector('.main-content');
+        
+        // Simulate loading time (remove this setTimeout in production)
+        setTimeout(() => {
+            loader.classList.add('fade-out');
+            mainContent.classList.add('loaded');
+            
+            // Remove loader from DOM after animation
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        }, 2000); // 2 seconds loading time for demo
+    });
+
+    // Previous JavaScript code for cards and buttons
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = 'fadeIn 0.5s forwards';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        observer.observe(card);
+    });
+
+    const buttons = document.querySelectorAll('.details-btn');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 100);
+        });
+    });
+</script>
+</body>
+</html>
